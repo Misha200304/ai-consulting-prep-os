@@ -1,127 +1,279 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CreditCard, Database } from 'lucide-react';
-import { Terminal } from './terminal';
+import {
+  ArrowRight,
+  BarChart3,
+  Brain,
+  CheckCircle2,
+  Search,
+  Sparkles,
+  Target,
+} from 'lucide-react';
+
+const cards = [
+  {
+    icon: Target,
+    title: 'Diagnose weak spots',
+    description: 'Find the exact case skills holding you back before you keep practicing blindly.',
+  },
+  {
+    icon: Brain,
+    title: 'Build business intuition',
+    description: 'Train how to think in revenue, margin, customers, markets, and strategic tradeoffs.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Track readiness',
+    description: 'Get a clear score, weakness map, and focused 7–14 day prep sprint.',
+  },
+];
+
+const pricing = [
+  {
+    name: 'Free Diagnostic',
+    price: '$0',
+    description: 'Basic weakness category and next step.',
+  },
+  {
+    name: 'AI Report',
+    price: '$49',
+    description: 'Full readiness score, weakness map, and 7-day prep plan.',
+  },
+  {
+    name: 'Human Review',
+    price: '$199',
+    description: 'AI report plus human-reviewed feedback and 14-day plan.',
+  },
+];
 
 export default function HomePage() {
   return (
-    <main>
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                Build Your SaaS
-                <span className="block text-orange-500">Faster Than Ever</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Launch your SaaS product in record time with our powerful,
-                ready-to-use template. Packed with modern technologies and
-                essential integrations.
-              </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <a
-                  href="https://vercel.com/templates/next.js/next-js-saas-starter"
-                  target="_blank"
-                >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-lg rounded-full"
-                  >
-                    Deploy your own
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </a>
-              </div>
-            </div>
-            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <Terminal />
-            </div>
-          </div>
-        </div>
-      </section>
+    <main className="min-h-screen overflow-hidden bg-black text-white">
+      <style>{`
+        @keyframes blobFloatOne {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+          50% { transform: translate3d(18px, -24px, 0) rotate(8deg) scale(1.04); }
+        }
 
-      <section className="py-16 bg-white w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-            <div>
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <svg viewBox="0 0 24 24" className="h-6 w-6">
-                  <path
-                    fill="currentColor"
-                    d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"
-                  />
-                </svg>
+        @keyframes blobFloatTwo {
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+          50% { transform: translate3d(-22px, 18px, 0) rotate(-10deg) scale(1.06); }
+        }
+
+        @keyframes slowSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        .blob-one {
+          animation: blobFloatOne 7s ease-in-out infinite;
+        }
+
+        .blob-two {
+          animation: blobFloatTwo 8s ease-in-out infinite;
+        }
+
+        .slow-spin {
+          animation: slowSpin 18s linear infinite;
+        }
+
+        .interactive-button {
+          transition:
+            transform 180ms ease,
+            box-shadow 180ms ease,
+            background 180ms ease;
+        }
+
+        .interactive-button:hover {
+          transform: translateY(-4px) scale(1.03);
+        }
+
+        .interactive-button:active {
+          transform: translateY(1px) scale(0.97);
+        }
+      `}</style>
+
+      <section className="relative min-h-screen px-4 py-8 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#172554_0%,transparent_32%),radial-gradient(circle_at_bottom_right,#581c87_0%,transparent_30%),linear-gradient(135deg,#020617_0%,#000000_48%,#020617_100%)]" />
+
+        <div className="pointer-events-none absolute -top-20 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-gradient-to-br from-cyan-400 via-blue-600 to-fuchsia-500 opacity-90 blur-sm slow-spin" />
+
+        <div className="blob-one pointer-events-none absolute left-8 top-72 h-64 w-72 rounded-[45%_55%_60%_40%] bg-gradient-to-br from-cyan-300 via-blue-700 to-fuchsia-500 opacity-90 blur-[1px]" />
+
+        <div className="blob-two pointer-events-none absolute right-8 top-48 h-56 w-48 rounded-[55%_45%_40%_60%] bg-gradient-to-br from-cyan-300 via-blue-600 to-indigo-900 opacity-90 blur-[1px]" />
+
+        <div className="blob-two pointer-events-none absolute bottom-4 right-20 h-80 w-[420px] rounded-[60%_40%_50%_50%] bg-gradient-to-br from-blue-700 via-cyan-400 to-fuchsia-600 opacity-90 blur-[1px]" />
+
+        <div className="relative mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-black/70 shadow-2xl shadow-blue-950/40 backdrop-blur-xl">
+          <header className="flex items-center justify-between px-6 py-6 lg:px-10">
+            <a href="/" className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
+                <Sparkles className="h-5 w-5 text-blue-700" />
               </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Next.js and React
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Leverage the power of modern web technologies for optimal
-                  performance and developer experience.
+              <div>
+                <p className="text-sm font-bold uppercase tracking-widest">
+                  CaseReady
                 </p>
+                <p className="text-xs text-slate-400">AI Prep OS</p>
               </div>
+            </a>
+
+            <nav className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
+              <a href="#features" className="hover:text-white">Features</a>
+              <a href="#pricing" className="hover:text-white">Pricing</a>
+              <a href="/sample-report" className="hover:text-white">Sample</a>
+              <a href="/sign-in" className="hover:text-white">Sign in</a>
+            </nav>
+
+            <a href="/diagnostic">
+              <Button className="interactive-button rounded-full bg-fuchsia-500 px-6 text-white shadow-lg shadow-fuchsia-500/30 hover:bg-fuchsia-400">
+                Start
+              </Button>
+            </a>
+          </header>
+
+          <div className="mx-auto max-w-5xl px-6 pb-24 pt-14 text-center lg:px-10 lg:pb-32 lg:pt-20">
+            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-blue-100">
+              <Sparkles className="h-4 w-4 text-cyan-300" />
+              AI consulting prep for underdog candidates
             </div>
 
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <Database className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Postgres and Drizzle ORM
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Robust database solution with an intuitive ORM for efficient
-                  data management and scalability.
-                </p>
-              </div>
-            </div>
+            <h1 className="mt-10 text-6xl font-black tracking-tight sm:text-7xl lg:text-8xl">
+              Welcome.
+            </h1>
 
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <CreditCard className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Stripe Integration
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Seamless payment processing and subscription management with
-                  industry-leading Stripe integration.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            <p className="mt-3 text-2xl font-medium text-slate-300">
+              Stop practicing cases blindly.
+            </p>
 
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Ready to launch your SaaS?
-              </h2>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Our template provides everything you need to get your SaaS up
-                and running quickly. Don't waste time on boilerplate - focus on
-                what makes your product unique.
-              </p>
-            </div>
-            <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
-              <a href="https://github.com/nextjs/saas-starter" target="_blank">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg rounded-full"
-                >
-                  View the code
-                  <ArrowRight className="ml-3 h-6 w-6" />
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg">
+              Diagnose your consulting interview weaknesses, get a readiness
+              score, and follow a focused prep plan before your real interview.
+            </p>
+
+            <div className="mx-auto mt-10 flex max-w-2xl items-center rounded-full border border-white/20 bg-black/50 p-2 shadow-2xl shadow-blue-950/30">
+              <div className="flex flex-1 items-center gap-3 px-5 text-left text-slate-500">
+                <Search className="h-5 w-5" />
+                <span className="truncate">
+                  What is blocking your consulting interview progress?
+                </span>
+              </div>
+              <a href="/diagnostic">
+                <Button className="interactive-button rounded-full bg-blue-600 px-6 py-5 text-white shadow-lg shadow-blue-600/30 hover:bg-blue-500">
+                  Diagnose
                 </Button>
               </a>
             </div>
+
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a href="/diagnostic">
+                <Button className="interactive-button rounded-full bg-blue-600 px-8 py-6 text-base text-white shadow-xl shadow-blue-600/30 hover:bg-blue-500">
+                  Get My Free Diagnostic
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </a>
+
+              <a href="/sample-report">
+                <Button
+                  variant="outline"
+                  className="interactive-button rounded-full border-white/20 bg-white/5 px-8 py-6 text-base text-white hover:bg-white/10 hover:text-white"
+                >
+                  See Report
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" className="relative bg-black px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">
+              Product system
+            </p>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+              Not more random practice. A real prep system.
+            </h2>
+            <p className="mt-5 text-lg text-slate-400">
+              More cases do not help if you repeat the same mistakes. CaseReady
+              starts with diagnosis, then gives you targeted feedback.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 md:grid-cols-3">
+            {cards.map((card) => {
+              const Icon = card.icon;
+
+              return (
+                <div
+                  key={card.title}
+                  className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.07]"
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/20 text-cyan-300">
+                    <Icon className="h-7 w-7" />
+                  </div>
+                  <h3 className="mt-8 text-2xl font-semibold">{card.title}</h3>
+                  <p className="mt-4 text-slate-400">{card.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" className="relative bg-slate-950 px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">
+              Pricing
+            </p>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+              Start free. Upgrade when you need deeper feedback.
+            </h2>
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+            {pricing.map((plan, index) => (
+              <div
+                key={plan.name}
+                className={`rounded-3xl border p-8 transition hover:-translate-y-2 ${
+                  index === 1
+                    ? 'border-blue-400 bg-blue-600 shadow-2xl shadow-blue-600/25'
+                    : 'border-white/10 bg-white/[0.04]'
+                }`}
+              >
+                <h3 className="text-2xl font-bold">{plan.name}</h3>
+                <p className="mt-4 text-slate-300">{plan.description}</p>
+                <p className="mt-8 text-5xl font-black">{plan.price}</p>
+
+                <div className="mt-8 space-y-4">
+                  <div className="flex gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-cyan-300" />
+                    <p>Readiness direction</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-cyan-300" />
+                    <p>Weakness diagnosis</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <CheckCircle2 className="h-5 w-5 text-cyan-300" />
+                    <p>Next-step prep plan</p>
+                  </div>
+                </div>
+
+                <a href="/diagnostic" className="mt-8 block">
+                  <Button
+                    className={`interactive-button w-full rounded-full py-6 ${
+                      index === 1
+                        ? 'bg-white text-blue-700 hover:bg-blue-50'
+                        : 'bg-blue-600 text-white hover:bg-blue-500'
+                    }`}
+                  >
+                    Choose Plan
+                  </Button>
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </section>
