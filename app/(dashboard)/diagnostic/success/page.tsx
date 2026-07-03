@@ -8,60 +8,75 @@ import {
   UserCheck,
 } from 'lucide-react';
 
-const nextSteps = [
-  {
-    name: 'Free Basic Roadmap',
-    price: '$0',
-    description:
-      'Get a simple recommended next step based on your diagnostic answers.',
-    bestFor: 'Best if you are exploring and want direction first.',
-    cta: 'Get Free Roadmap',
-    href: '/dashboard',
-    icon: FileText,
-    highlighted: false,
-    features: [
-      'Basic weakness category',
-      'Suggested next action',
-      'Good starting point',
-    ],
-  },
-  {
-    name: 'AI Diagnostic Report',
-    price: '$49',
-    description:
-      'Get a full readiness score, weakness map, and focused 7-day prep plan.',
-    bestFor: 'Best if you want clear feedback before your interview.',
-    cta: 'Get Full Report',
-    href: '/pricing',
-    icon: Brain,
-    highlighted: true,
-    features: [
-      'Readiness score',
-      'Detailed weakness map',
-      '7-day prep plan',
-      'Recommended drills',
-    ],
-  },
-  {
-    name: 'AI + Human Review Sprint',
-    price: '$199',
-    description:
-      'Get the AI report plus human-reviewed notes and a 14-day prep sprint.',
-    bestFor: 'Best if your interview is soon and you need stronger feedback.',
-    cta: 'Upgrade to Human Review',
-    href: '/pricing',
-    icon: UserCheck,
-    highlighted: false,
-    features: [
-      'Everything in AI Report',
-      'Human-reviewed notes',
-      '14-day prep sprint',
-      'Priority feedback',
-    ],
-  },
-];
+type PageProps = {
+  searchParams: Promise<{
+    submissionId?: string;
+  }>;
+};
 
-export default function DiagnosticSuccessPage() {
+export default async function DiagnosticSuccessPage({
+  searchParams,
+}: PageProps) {
+  const params = await searchParams;
+  const submissionId = params.submissionId;
+
+  const freeRoadmapHref = submissionId
+    ? `/roadmap?submissionId=${submissionId}`
+    : '/roadmap';
+
+  const nextSteps = [
+    {
+      name: 'Free Basic Roadmap',
+      price: '$0',
+      description:
+        'Get a simple recommended next step based on your diagnostic answers.',
+      bestFor: 'Best if you are exploring and want direction first.',
+      cta: 'Get Free Roadmap',
+      href: freeRoadmapHref,
+      icon: FileText,
+      highlighted: false,
+      features: [
+        'Basic weakness category',
+        'Suggested next action',
+        'Good starting point',
+      ],
+    },
+    {
+      name: 'AI Diagnostic Report',
+      price: '$49',
+      description:
+        'Get a full readiness score, weakness map, and focused 7-day prep plan.',
+      bestFor: 'Best if you want clear feedback before your interview.',
+      cta: 'Get Full Report',
+      href: '/pricing',
+      icon: Brain,
+      highlighted: true,
+      features: [
+        'Readiness score',
+        'Detailed weakness map',
+        '7-day prep plan',
+        'Recommended drills',
+      ],
+    },
+    {
+      name: 'AI + Human Review Sprint',
+      price: '$199',
+      description:
+        'Get the AI report plus human-reviewed notes and a 14-day prep sprint.',
+      bestFor: 'Best if your interview is soon and you need stronger feedback.',
+      cta: 'Upgrade to Human Review',
+      href: '/pricing',
+      icon: UserCheck,
+      highlighted: false,
+      features: [
+        'Everything in AI Report',
+        'Human-reviewed notes',
+        '14-day prep sprint',
+        'Priority feedback',
+      ],
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[#f7f9fc] px-4 py-12 sm:px-6 lg:px-8">
       <style>{`

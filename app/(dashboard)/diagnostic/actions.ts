@@ -36,22 +36,27 @@ export async function submitDiagnostic(formData: FormData) {
     throw new Error('Missing required diagnostic fields.');
   }
 
-  await db.insert(diagnosticSubmissions).values({
-    firstName,
-    lastName,
-    email,
-    educationLevel,
-    fieldOfStudy,
-    consultingFamiliarity,
-    targetFirms,
-    targetRole,
-    interviewDate: interviewDate || null,
-    prepLevel,
-    casesPracticed,
-    biggestStruggles,
-    hardestPart,
-    status: 'submitted',
-  });
+  const [submission] = await db
+    .insert(diagnosticSubmissions)
+    .values({
+      firstName,
+      lastName,
+      email,
+      educationLevel,
+      fieldOfStudy,
+      consultingFamiliarity,
+      targetFirms,
+      targetRole,
+      interviewDate: interviewDate || null,
+      prepLevel,
+      casesPracticed,
+      biggestStruggles,
+      hardestPart,
+      status: 'submitted',
+    })
+    .returning({
+      id: diagnosticSubmissions.id,
+    });
 
-  redirect('/diagnostic/success');
+  redirect(`/diagnostic/success?submissionId=${submission.id}`);
 }

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { db } from '@/lib/db/drizzle';
 import { diagnosticSubmissions } from '@/lib/db/schema';
 import { desc } from 'drizzle-orm';
@@ -68,6 +70,12 @@ export default async function AdminDiagnosticsPage() {
             <p className="mt-4 text-slate-600">
               Submit the diagnostic form first, then come back here.
             </p>
+
+            <Link href="/diagnostic" className="mt-8 inline-block">
+              <Button className="rounded-xl border-2 border-[#111827] bg-[#111827] px-8 py-6 text-white shadow-[0_6px_0_#2563eb] hover:bg-[#1f2937]">
+                Go to Diagnostic Form
+              </Button>
+            </Link>
           </div>
         ) : (
           <div className="mt-10 space-y-6">
@@ -82,7 +90,7 @@ export default async function AdminDiagnosticsPage() {
                   className="rounded-[2rem] border-2 border-[#111827] bg-white p-6 shadow-[0_8px_0_#111827]"
                 >
                   <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-                    <div>
+                    <div className="flex-1">
                       <div className="flex items-center gap-3">
                         <div className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-[#111827] bg-[#2563eb] text-white shadow-[0_4px_0_#111827]">
                           <User className="h-6 w-6" />
@@ -104,7 +112,7 @@ export default async function AdminDiagnosticsPage() {
                             <Mail className="h-4 w-4" />
                             Email
                           </div>
-                          <p className="mt-2 font-bold text-[#111827]">
+                          <p className="mt-2 break-words font-bold text-[#111827]">
                             {submission.email}
                           </p>
                         </div>
@@ -216,7 +224,7 @@ export default async function AdminDiagnosticsPage() {
                       </div>
                     </div>
 
-                    <div className="min-w-[180px] rounded-2xl border-2 border-[#111827] bg-[#111827] p-5 text-white shadow-[0_6px_0_#2563eb]">
+                    <div className="min-w-[200px] rounded-2xl border-2 border-[#111827] bg-[#111827] p-5 text-white shadow-[0_6px_0_#2563eb]">
                       <p className="text-sm font-bold uppercase text-blue-200">
                         Status
                       </p>
@@ -224,12 +232,11 @@ export default async function AdminDiagnosticsPage() {
                         {submission.status}
                       </p>
 
-                      <button
-                        disabled
-                        className="mt-6 w-full rounded-xl border-2 border-white/20 bg-white/10 px-4 py-3 text-sm font-bold text-white opacity-70"
-                      >
-                        Generate Report Soon
-                      </button>
+                      <Link href={`/admin/diagnostics/${submission.id}`}>
+                        <Button className="mt-6 w-full rounded-xl border-2 border-white/20 bg-white px-4 py-3 text-sm font-bold text-[#111827] hover:bg-[#dbeafe]">
+                          Open Details
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </article>
