@@ -5,6 +5,8 @@ import {
   text,
   timestamp,
   integer,
+  date,
+  jsonb,
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
@@ -54,6 +56,43 @@ export const activityLogs = pgTable('activity_logs', {
   ipAddress: varchar('ip_address', { length: 45 }),
 });
 
+export const diagnosticSubmissions = pgTable('diagnostic_submissions', {
+  id: serial('id').primaryKey(),
+
+  userId: integer('user_id').references(() => users.id),
+
+  firstName: varchar('first_name', { length: 100 }).notNull(),
+  lastName: varchar('last_name', { length: 100 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
+
+  educationLevel: varchar('education_level', { length: 100 }).notNull(),
+  fieldOfStudy: varchar('field_of_study', { length: 150 }),
+
+  consultingFamiliarity: varchar('consulting_familiarity', {
+    length: 150,
+  }).notNull(),
+
+  targetFirms: text('target_firms'),
+  targetRole: varchar('target_role', { length: 100 }),
+
+  interviewDate: date('interview_date'),
+
+  prepLevel: varchar('prep_level', { length: 100 }).notNull(),
+  casesPracticed: varchar('cases_practiced', { length: 50 }).notNull(),
+
+  biggestStruggles: jsonb('biggest_struggles')
+    .$type<string[]>()
+    .notNull()
+    .default([]),
+
+  hardestPart: text('hardest_part'),
+
+  status: varchar('status', { length: 50 }).notNull().default('submitted'),
+
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+});
+
 export const invitations = pgTable('invitations', {
   id: serial('id').primaryKey(),
   teamId: integer('team_id')
@@ -77,6 +116,7 @@ export const teamsRelations = relations(teams, ({ many }) => ({
 export const usersRelations = relations(users, ({ many }) => ({
   teamMembers: many(teamMembers),
   invitationsSent: many(invitations),
+  diagnosticSubmissions: many(diagnosticSubmissions),
 }));
 
 export const invitationsRelations = relations(invitations, ({ one }) => ({
@@ -89,6 +129,16 @@ export const invitationsRelations = relations(invitations, ({ one }) => ({
     references: [users.id],
   }),
 }));
+
+export const diagnosticSubmissionsRelations = relations(
+  diagnosticSubmissions,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [diagnosticSubmissions.userId],
+      references: [users.id],
+    }),
+  })
+);
 
 export const teamMembersRelations = relations(teamMembers, ({ one }) => ({
   user: one(users, {
@@ -122,6 +172,8 @@ export type ActivityLog = typeof activityLogs.$inferSelect;
 export type NewActivityLog = typeof activityLogs.$inferInsert;
 export type Invitation = typeof invitations.$inferSelect;
 export type NewInvitation = typeof invitations.$inferInsert;
+export type DiagnosticSubmission = typeof diagnosticSubmissions.$inferSelect;
+export type NewDiagnosticSubmission = typeof diagnosticSubmissions.$inferInsert;
 export type TeamDataWithMembers = Team & {
   teamMembers: (TeamMember & {
     user: Pick<User, 'id' | 'name' | 'email'>;

@@ -1,15 +1,12 @@
-'use client';
-
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   ArrowRight,
   Brain,
   Calendar,
-  CheckCircle2,
   GraduationCap,
   Target,
 } from 'lucide-react';
+import { submitDiagnostic } from './actions';
 
 const educationLevels = [
   'High school',
@@ -68,40 +65,6 @@ const struggles = [
 ];
 
 export default function DiagnosticPage() {
-  const [submitted, setSubmitted] = useState(false);
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setSubmitted(true);
-  }
-
-  if (submitted) {
-    return (
-      <main className="min-h-screen bg-[#f7f9fc] px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl rounded-[2rem] border-2 border-[#111827] bg-white p-10 text-center shadow-[0_12px_0_#2563eb]">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#111827] bg-[#2563eb] text-white shadow-[0_5px_0_#111827]">
-            <CheckCircle2 className="h-8 w-8" />
-          </div>
-
-          <h1 className="mt-8 text-4xl font-bold text-[#111827]">
-            Diagnostic submitted
-          </h1>
-
-          <p className="mt-4 text-lg text-slate-600">
-            Great. In the next version, this form will save your answers and
-            generate a real AI diagnostic report. For now, the page flow works.
-          </p>
-
-          <a href="/" className="mt-8 inline-block">
-            <Button className="rounded-xl border-2 border-[#111827] bg-[#111827] px-8 py-6 text-white shadow-[0_6px_0_#2563eb] hover:bg-[#1f2937]">
-              Back to homepage
-            </Button>
-          </a>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="min-h-screen bg-[#f7f9fc] px-4 py-12 sm:px-6 lg:px-8">
       <style>{`
@@ -195,7 +158,7 @@ export default function DiagnosticPage() {
               </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            <form action={submitDiagnostic} className="mt-8 space-y-6">
               <div className="grid gap-5 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-bold text-[#111827]">
@@ -203,6 +166,7 @@ export default function DiagnosticPage() {
                   </label>
                   <input
                     required
+                    name="firstName"
                     type="text"
                     placeholder="Mykhailo"
                     className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
@@ -215,6 +179,7 @@ export default function DiagnosticPage() {
                   </label>
                   <input
                     required
+                    name="lastName"
                     type="text"
                     placeholder="Polishchuk"
                     className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
@@ -228,6 +193,7 @@ export default function DiagnosticPage() {
                 </label>
                 <input
                   required
+                  name="email"
                   type="email"
                   placeholder="you@email.com"
                   className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
@@ -239,9 +205,15 @@ export default function DiagnosticPage() {
                   <label className="text-sm font-bold text-[#111827]">
                     Highest education level
                   </label>
-                  <select className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]">
+                  <select
+                    required
+                    name="educationLevel"
+                    className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
+                  >
                     {educationLevels.map((level) => (
-                      <option key={level}>{level}</option>
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -251,6 +223,7 @@ export default function DiagnosticPage() {
                     Field of study / major
                   </label>
                   <input
+                    name="fieldOfStudy"
                     type="text"
                     placeholder="Data Science, Finance, Engineering..."
                     className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
@@ -262,9 +235,15 @@ export default function DiagnosticPage() {
                 <label className="text-sm font-bold text-[#111827]">
                   How new are you to consulting?
                 </label>
-                <select className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]">
+                <select
+                  required
+                  name="consultingFamiliarity"
+                  className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
+                >
                   {consultingFamiliarity.map((level) => (
-                    <option key={level}>{level}</option>
+                    <option key={level} value={level}>
+                      {level}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -275,6 +254,7 @@ export default function DiagnosticPage() {
                     Target firms
                   </label>
                   <input
+                    name="targetFirms"
                     type="text"
                     placeholder="McKinsey, BCG, Bain, Deloitte..."
                     className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
@@ -285,9 +265,14 @@ export default function DiagnosticPage() {
                   <label className="text-sm font-bold text-[#111827]">
                     Target role
                   </label>
-                  <select className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]">
+                  <select
+                    name="targetRole"
+                    className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
+                  >
                     {targetRoles.map((role) => (
-                      <option key={role}>{role}</option>
+                      <option key={role} value={role}>
+                        {role}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -299,6 +284,7 @@ export default function DiagnosticPage() {
                     Interview date
                   </label>
                   <input
+                    name="interviewDate"
                     type="date"
                     className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
                   />
@@ -308,9 +294,15 @@ export default function DiagnosticPage() {
                   <label className="text-sm font-bold text-[#111827]">
                     Current prep level
                   </label>
-                  <select className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]">
+                  <select
+                    required
+                    name="prepLevel"
+                    className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
+                  >
                     {levels.map((level) => (
-                      <option key={level}>{level}</option>
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -320,9 +312,15 @@ export default function DiagnosticPage() {
                 <label className="text-sm font-bold text-[#111827]">
                   How many full cases have you practiced?
                 </label>
-                <select className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]">
+                <select
+                  required
+                  name="casesPracticed"
+                  className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
+                >
                   {casePractice.map((amount) => (
-                    <option key={amount}>{amount}</option>
+                    <option key={amount} value={amount}>
+                      {amount}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -338,7 +336,12 @@ export default function DiagnosticPage() {
                       key={struggle}
                       className="flex cursor-pointer items-center gap-3 rounded-xl border-2 border-[#111827] bg-[#f7f9fc] px-4 py-3 hover:bg-[#dbeafe]"
                     >
-                      <input type="checkbox" className="h-4 w-4" />
+                      <input
+                        type="checkbox"
+                        name="biggestStruggles"
+                        value={struggle}
+                        className="h-4 w-4"
+                      />
                       <span className="text-sm font-medium">{struggle}</span>
                     </label>
                   ))}
@@ -350,6 +353,7 @@ export default function DiagnosticPage() {
                   Tell us what feels hardest right now
                 </label>
                 <textarea
+                  name="hardestPart"
                   rows={5}
                   placeholder="Example: I can understand the case, but I struggle to structure my thoughts and give a strong recommendation."
                   className="mt-2 w-full rounded-xl border-2 border-[#111827] bg-white px-4 py-3 outline-none focus:bg-[#dbeafe]"
