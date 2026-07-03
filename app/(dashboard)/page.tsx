@@ -4,26 +4,86 @@ import {
   BarChart3,
   Brain,
   CheckCircle2,
+  CircleDollarSign,
+  FileText,
+  MessageSquare,
   Search,
   Sparkles,
   Target,
+  Users,
 } from 'lucide-react';
 
-const cards = [
+const logos = ['MBB Prep', 'Big 4', 'STEM', 'MBA', 'Consulting', 'Strategy'];
+
+const services = [
   {
-    icon: Target,
-    title: 'Diagnose weak spots',
-    description: 'Find the exact case skills holding you back before you keep practicing blindly.',
+    title: 'Case Diagnostic',
+    description:
+      'Identify your weakest skills before wasting another week on random case practice.',
+    icon: Search,
+    variant: 'light',
   },
   {
+    title: 'AI Feedback',
+    description:
+      'Get structured feedback on your case structure, math, synthesis, and business logic.',
     icon: Brain,
-    title: 'Build business intuition',
-    description: 'Train how to think in revenue, margin, customers, markets, and strategic tradeoffs.',
+    variant: 'blue',
   },
   {
+    title: 'Business Intuition',
+    description:
+      'Train how to think in revenue, margins, customers, markets, and strategic tradeoffs.',
     icon: BarChart3,
-    title: 'Track readiness',
-    description: 'Get a clear score, weakness map, and focused 7–14 day prep sprint.',
+    variant: 'dark',
+  },
+  {
+    title: 'Prep Plan',
+    description:
+      'Receive a focused 7–14 day sprint based on your actual weaknesses.',
+    icon: Target,
+    variant: 'light',
+  },
+  {
+    title: 'Mock Case Review',
+    description:
+      'Practice with AI mock cases and get scored across a real consulting rubric.',
+    icon: MessageSquare,
+    variant: 'blue',
+  },
+  {
+    title: 'Final Report',
+    description:
+      'Get a clear readiness score, weakness map, and next actions before the interview.',
+    icon: FileText,
+    variant: 'light',
+  },
+];
+
+const process = [
+  {
+    step: '01',
+    title: 'Complete your diagnostic',
+    description:
+      'Tell us your target firms, interview date, background, and current case-prep struggles.',
+  },
+  {
+    step: '02',
+    title: 'Get your weakness map',
+    description:
+      'See exactly where you lose points: structure, math, business intuition, synthesis, or communication.',
+  },
+  {
+    step: '03',
+    title: 'Follow a focused sprint',
+    description:
+      'Receive a practical plan with drills matched to the skills blocking your interview readiness.',
+  },
+  {
+    step: '04',
+    title: 'Practice and improve',
+    description:
+      'Use mock cases, feedback, and readiness tracking to stop confusing effort with progress.',
   },
 ];
 
@@ -31,189 +91,258 @@ const pricing = [
   {
     name: 'Free Diagnostic',
     price: '$0',
-    description: 'Basic weakness category and next step.',
+    description: 'For candidates who want initial direction.',
+    features: ['Basic weakness category', 'Recommended next step', 'Email summary'],
   },
   {
-    name: 'AI Report',
+    name: 'AI Diagnostic Report',
     price: '$49',
-    description: 'Full readiness score, weakness map, and 7-day prep plan.',
+    description: 'For candidates who want a serious prep plan.',
+    features: [
+      'Full readiness score',
+      'Detailed weakness map',
+      '7-day prep plan',
+      'Recommended drills',
+    ],
+    highlighted: true,
   },
   {
-    name: 'Human Review',
+    name: 'Human Review Sprint',
     price: '$199',
-    description: 'AI report plus human-reviewed feedback and 14-day plan.',
+    description: 'For candidates who want deeper feedback.',
+    features: [
+      'Everything in AI Report',
+      'Human-reviewed notes',
+      '14-day prep sprint',
+      'Priority feedback',
+    ],
   },
 ];
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-black text-white">
+    <main className="min-h-screen bg-[#f7f9fc] text-[#111827]">
       <style>{`
-        @keyframes blobFloatOne {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-          50% { transform: translate3d(18px, -24px, 0) rotate(8deg) scale(1.04); }
-        }
-
-        @keyframes blobFloatTwo {
-          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-          50% { transform: translate3d(-22px, 18px, 0) rotate(-10deg) scale(1.06); }
-        }
-
-        @keyframes slowSpin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        .blob-one {
-          animation: blobFloatOne 7s ease-in-out infinite;
-        }
-
-        .blob-two {
-          animation: blobFloatTwo 8s ease-in-out infinite;
-        }
-
-        .slow-spin {
-          animation: slowSpin 18s linear infinite;
-        }
-
-        .interactive-button {
+        .move-button {
           transition:
             transform 180ms ease,
             box-shadow 180ms ease,
-            background 180ms ease;
+            background-color 180ms ease;
         }
 
-        .interactive-button:hover {
-          transform: translateY(-4px) scale(1.03);
+        .move-button:hover {
+          transform: translateY(-4px);
         }
 
-        .interactive-button:active {
-          transform: translateY(1px) scale(0.97);
+        .move-button:active {
+          transform: translateY(2px) scale(0.98);
+        }
+
+        .card-hover {
+          transition:
+            transform 180ms ease,
+            box-shadow 180ms ease;
+        }
+
+        .card-hover:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 18px 0 #111827;
         }
       `}</style>
 
-      <section className="relative min-h-screen px-4 py-8 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#172554_0%,transparent_32%),radial-gradient(circle_at_bottom_right,#581c87_0%,transparent_30%),linear-gradient(135deg,#020617_0%,#000000_48%,#020617_100%)]" />
-
-        <div className="pointer-events-none absolute -top-20 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-gradient-to-br from-cyan-400 via-blue-600 to-fuchsia-500 opacity-90 blur-sm slow-spin" />
-
-        <div className="blob-one pointer-events-none absolute left-8 top-72 h-64 w-72 rounded-[45%_55%_60%_40%] bg-gradient-to-br from-cyan-300 via-blue-700 to-fuchsia-500 opacity-90 blur-[1px]" />
-
-        <div className="blob-two pointer-events-none absolute right-8 top-48 h-56 w-48 rounded-[55%_45%_40%_60%] bg-gradient-to-br from-cyan-300 via-blue-600 to-indigo-900 opacity-90 blur-[1px]" />
-
-        <div className="blob-two pointer-events-none absolute bottom-4 right-20 h-80 w-[420px] rounded-[60%_40%_50%_50%] bg-gradient-to-br from-blue-700 via-cyan-400 to-fuchsia-600 opacity-90 blur-[1px]" />
-
-        <div className="relative mx-auto max-w-7xl rounded-[2rem] border border-white/10 bg-black/70 shadow-2xl shadow-blue-950/40 backdrop-blur-xl">
-          <header className="flex items-center justify-between px-6 py-6 lg:px-10">
+      <section className="px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-[2rem] border-2 border-[#111827] bg-white p-5 shadow-[0_12px_0_#111827]">
+          <header className="flex items-center justify-between">
             <a href="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-                <Sparkles className="h-5 w-5 text-blue-700" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2563eb] text-white">
+                <Sparkles className="h-5 w-5" />
               </div>
-              <div>
-                <p className="text-sm font-bold uppercase tracking-widest">
-                  CaseReady
-                </p>
-                <p className="text-xs text-slate-400">AI Prep OS</p>
-              </div>
+              <span className="text-xl font-bold tracking-tight">
+                CaseReady
+              </span>
             </a>
 
-            <nav className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
-              <a href="#features" className="hover:text-white">Features</a>
-              <a href="#pricing" className="hover:text-white">Pricing</a>
-              <a href="/sample-report" className="hover:text-white">Sample</a>
-              <a href="/sign-in" className="hover:text-white">Sign in</a>
+            <nav className="hidden items-center gap-8 text-sm font-medium md:flex">
+              <a href="#services" className="hover:text-[#2563eb]">
+                Services
+              </a>
+              <a href="#process" className="hover:text-[#2563eb]">
+                Process
+              </a>
+              <a href="#pricing" className="hover:text-[#2563eb]">
+                Pricing
+              </a>
+              <a href="/sample-report" className="hover:text-[#2563eb]">
+                Sample
+              </a>
             </nav>
 
             <a href="/diagnostic">
-              <Button className="interactive-button rounded-full bg-fuchsia-500 px-6 text-white shadow-lg shadow-fuchsia-500/30 hover:bg-fuchsia-400">
-                Start
+              <Button className="move-button rounded-xl border-2 border-[#111827] bg-white px-6 py-5 text-[#111827] shadow-[0_5px_0_#111827] hover:bg-[#dbeafe]">
+                Request diagnostic
               </Button>
             </a>
           </header>
 
-          <div className="mx-auto max-w-5xl px-6 pb-24 pt-14 text-center lg:px-10 lg:pb-32 lg:pt-20">
-            <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-blue-100">
-              <Sparkles className="h-4 w-4 text-cyan-300" />
-              AI consulting prep for underdog candidates
-            </div>
-
-            <h1 className="mt-10 text-6xl font-black tracking-tight sm:text-7xl lg:text-8xl">
-              Welcome.
-            </h1>
-
-            <p className="mt-3 text-2xl font-medium text-slate-300">
-              Stop practicing cases blindly.
-            </p>
-
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg">
-              Diagnose your consulting interview weaknesses, get a readiness
-              score, and follow a focused prep plan before your real interview.
-            </p>
-
-            <div className="mx-auto mt-10 flex max-w-2xl items-center rounded-full border border-white/20 bg-black/50 p-2 shadow-2xl shadow-blue-950/30">
-              <div className="flex flex-1 items-center gap-3 px-5 text-left text-slate-500">
-                <Search className="h-5 w-5" />
-                <span className="truncate">
-                  What is blocking your consulting interview progress?
-                </span>
+          <div className="grid gap-12 px-3 py-16 lg:grid-cols-2 lg:px-10 lg:py-24">
+            <div>
+              <div className="inline-flex rounded-md bg-[#bfdbfe] px-3 py-1 text-sm font-bold">
+                Consulting Interview Prep
               </div>
-              <a href="/diagnostic">
-                <Button className="interactive-button rounded-full bg-blue-600 px-6 py-5 text-white shadow-lg shadow-blue-600/30 hover:bg-blue-500">
-                  Diagnose
-                </Button>
-              </a>
+
+              <h1 className="mt-8 max-w-2xl text-5xl font-bold leading-tight tracking-tight sm:text-6xl">
+                Navigating the case interview landscape for success
+              </h1>
+
+              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+                CaseReady OS helps smart candidates diagnose weak spots, build
+                business intuition, and follow a focused prep sprint before
+                their real consulting interview.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+                <a href="/diagnostic">
+                  <Button className="move-button rounded-xl border-2 border-[#111827] bg-[#111827] px-7 py-6 text-base text-white shadow-[0_6px_0_#2563eb] hover:bg-[#1f2937]">
+                    Book a diagnostic
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </a>
+
+                <a href="/sample-report">
+                  <Button
+                    variant="outline"
+                    className="move-button rounded-xl border-2 border-[#111827] bg-white px-7 py-6 text-base text-[#111827] shadow-[0_6px_0_#111827] hover:bg-[#dbeafe]"
+                  >
+                    View sample report
+                  </Button>
+                </a>
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <a href="/diagnostic">
-                <Button className="interactive-button rounded-full bg-blue-600 px-8 py-6 text-base text-white shadow-xl shadow-blue-600/30 hover:bg-blue-500">
-                  Get My Free Diagnostic
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </a>
+            <div className="relative flex items-center justify-center">
+              <div className="absolute right-4 top-4 h-20 w-20 rounded-full bg-[#bfdbfe]" />
+              <div className="absolute bottom-8 left-6 h-12 w-12 rounded-full bg-[#2563eb]" />
+              <div className="absolute left-8 top-14 h-8 w-8 rounded-full bg-[#111827]" />
 
-              <a href="/sample-report">
-                <Button
-                  variant="outline"
-                  className="interactive-button rounded-full border-white/20 bg-white/5 px-8 py-6 text-base text-white hover:bg-white/10 hover:text-white"
+              <div className="relative w-full max-w-md rounded-[2rem] border-2 border-[#111827] bg-[#dbeafe] p-8 shadow-[0_12px_0_#111827]">
+                <div className="rounded-[1.5rem] border-2 border-[#111827] bg-white p-6">
+                  <p className="text-sm font-bold text-[#2563eb]">
+                    Readiness Score
+                  </p>
+                  <div className="mt-4 flex items-end gap-2">
+                    <span className="text-7xl font-black">62</span>
+                    <span className="pb-3 text-xl font-bold text-slate-500">
+                      /100
+                    </span>
+                  </div>
+
+                  <div className="mt-6 h-4 rounded-full border-2 border-[#111827] bg-white">
+                    <div className="h-full w-[62%] rounded-full bg-[#2563eb]" />
+                  </div>
+
+                  <div className="mt-8 space-y-3">
+                    <div className="rounded-xl border-2 border-[#111827] bg-white p-4">
+                      <p className="text-xs font-bold uppercase text-slate-500">
+                        Top weakness
+                      </p>
+                      <p className="mt-1 font-bold">Generic structure</p>
+                    </div>
+
+                    <div className="rounded-xl border-2 border-[#111827] bg-[#111827] p-4 text-white">
+                      <p className="text-xs font-bold uppercase text-blue-200">
+                        Recommended sprint
+                      </p>
+                      <p className="mt-1 font-bold">
+                        14-day profitability plan
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="absolute -right-6 -top-6 flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#111827] bg-[#2563eb] text-white shadow-[0_6px_0_#111827]">
+                  <Target className="h-8 w-8" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t-2 border-[#111827] px-3 py-8 lg:px-10">
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
+              {logos.map((logo) => (
+                <div
+                  key={logo}
+                  className="text-center text-lg font-bold text-slate-500"
                 >
-                  See Report
-                </Button>
-              </a>
+                  {logo}
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section id="features" className="relative bg-black px-4 py-24 sm:px-6 lg:px-8">
+      <section id="services" className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">
-              Product system
-            </p>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Not more random practice. A real prep system.
-            </h2>
-            <p className="mt-5 text-lg text-slate-400">
-              More cases do not help if you repeat the same mistakes. CaseReady
-              starts with diagnosis, then gives you targeted feedback.
-            </p>
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <span className="rounded-md bg-[#bfdbfe] px-3 py-1 text-3xl font-bold">
+                Services
+              </span>
+              <p className="mt-6 max-w-2xl text-slate-600">
+                A focused prep system for candidates who need diagnosis,
+                feedback, and a real improvement plan — not random motivational
+                noise.
+              </p>
+            </div>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {cards.map((card) => {
-              const Icon = card.icon;
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {services.map((service) => {
+              const Icon = service.icon;
+
+              const cardClass =
+                service.variant === 'dark'
+                  ? 'bg-[#111827] text-white'
+                  : service.variant === 'blue'
+                    ? 'bg-[#dbeafe] text-[#111827]'
+                    : 'bg-white text-[#111827]';
 
               return (
                 <div
-                  key={card.title}
-                  className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.07]"
+                  key={service.title}
+                  className={`card-hover rounded-[2rem] border-2 border-[#111827] p-8 shadow-[0_8px_0_#111827] ${cardClass}`}
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-600/20 text-cyan-300">
-                    <Icon className="h-7 w-7" />
+                  <div className="flex gap-6">
+                    <div className="flex-1">
+                      <h3 className="inline rounded-md bg-[#bfdbfe] px-2 text-2xl font-bold text-[#111827]">
+                        {service.title}
+                      </h3>
+
+                      <p
+                        className={`mt-6 leading-7 ${
+                          service.variant === 'dark'
+                            ? 'text-slate-300'
+                            : 'text-slate-600'
+                        }`}
+                      >
+                        {service.description}
+                      </p>
+
+                      <a
+                        href="/diagnostic"
+                        className="mt-8 inline-flex items-center gap-2 font-bold"
+                      >
+                        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#111827] text-white">
+                          <ArrowRight className="h-4 w-4" />
+                        </span>
+                        Learn more
+                      </a>
+                    </div>
+
+                    <div className="hidden h-28 w-28 shrink-0 items-center justify-center rounded-full border-2 border-[#111827] bg-white md:flex">
+                      <Icon className="h-12 w-12 text-[#2563eb]" />
+                    </div>
                   </div>
-                  <h3 className="mt-8 text-2xl font-semibold">{card.title}</h3>
-                  <p className="mt-4 text-slate-400">{card.description}</p>
                 </div>
               );
             })}
@@ -221,59 +350,119 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="pricing" className="relative bg-slate-950 px-4 py-24 sm:px-6 lg:px-8">
+      <section id="process" className="px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div>
+            <span className="rounded-md bg-[#bfdbfe] px-3 py-1 text-3xl font-bold">
+              Process
+            </span>
+            <p className="mt-6 max-w-2xl text-slate-600">
+              Simple, direct, and built around execution. No bloated dashboard
+              fantasy before the core pain is validated.
+            </p>
+          </div>
+
+          <div className="mt-12 space-y-6">
+            {process.map((item) => (
+              <div
+                key={item.step}
+                className="rounded-[2rem] border-2 border-[#111827] bg-white p-6 shadow-[0_8px_0_#111827]"
+              >
+                <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                  <div className="text-5xl font-black text-[#2563eb]">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold">{item.title}</h3>
+                    <p className="mt-2 text-slate-600">{item.description}</p>
+                  </div>
+                  <div className="ml-auto hidden h-10 w-10 items-center justify-center rounded-full border-2 border-[#111827] md:flex">
+                    <ArrowRight className="h-5 w-5" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">
+            <span className="rounded-md bg-[#bfdbfe] px-3 py-1 text-3xl font-bold">
               Pricing
+            </span>
+            <p className="mx-auto mt-6 max-w-2xl text-slate-600">
+              Start free. Upgrade only when you want a deeper report or human
+              review.
             </p>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
-              Start free. Upgrade when you need deeper feedback.
-            </h2>
           </div>
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {pricing.map((plan, index) => (
+            {pricing.map((plan) => (
               <div
                 key={plan.name}
-                className={`rounded-3xl border p-8 transition hover:-translate-y-2 ${
-                  index === 1
-                    ? 'border-blue-400 bg-blue-600 shadow-2xl shadow-blue-600/25'
-                    : 'border-white/10 bg-white/[0.04]'
+                className={`rounded-[2rem] border-2 border-[#111827] p-8 shadow-[0_8px_0_#111827] ${
+                  plan.highlighted ? 'bg-[#2563eb] text-white' : 'bg-white'
                 }`}
               >
                 <h3 className="text-2xl font-bold">{plan.name}</h3>
-                <p className="mt-4 text-slate-300">{plan.description}</p>
+                <p
+                  className={`mt-4 ${
+                    plan.highlighted ? 'text-blue-100' : 'text-slate-600'
+                  }`}
+                >
+                  {plan.description}
+                </p>
                 <p className="mt-8 text-5xl font-black">{plan.price}</p>
 
                 <div className="mt-8 space-y-4">
-                  <div className="flex gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-cyan-300" />
-                    <p>Readiness direction</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-cyan-300" />
-                    <p>Weakness diagnosis</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-cyan-300" />
-                    <p>Next-step prep plan</p>
-                  </div>
+                  {plan.features.map((feature) => (
+                    <div key={feature} className="flex gap-3">
+                      <CheckCircle2 className="h-5 w-5 shrink-0" />
+                      <p>{feature}</p>
+                    </div>
+                  ))}
                 </div>
 
                 <a href="/diagnostic" className="mt-8 block">
                   <Button
-                    className={`interactive-button w-full rounded-full py-6 ${
-                      index === 1
-                        ? 'bg-white text-blue-700 hover:bg-blue-50'
-                        : 'bg-blue-600 text-white hover:bg-blue-500'
+                    className={`move-button w-full rounded-xl border-2 border-[#111827] py-6 shadow-[0_6px_0_#111827] ${
+                      plan.highlighted
+                        ? 'bg-white text-[#111827] hover:bg-[#dbeafe]'
+                        : 'bg-[#111827] text-white hover:bg-[#1f2937]'
                     }`}
                   >
-                    Choose Plan
+                    Choose plan
                   </Button>
                 </a>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-24 pt-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-[2rem] border-2 border-[#111827] bg-[#111827] p-10 text-white shadow-[0_12px_0_#2563eb] lg:p-14">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <span className="rounded-md bg-[#bfdbfe] px-3 py-1 text-2xl font-bold text-[#111827]">
+                Let’s make progress measurable
+              </span>
+              <p className="mt-6 max-w-xl text-slate-300">
+                Stop guessing if you are ready. Start with a diagnostic, find
+                the actual weakness, and fix the highest-impact skill first.
+              </p>
+            </div>
+
+            <div className="flex lg:justify-end">
+              <a href="/diagnostic">
+                <Button className="move-button rounded-xl bg-white px-8 py-6 text-[#111827] shadow-[0_6px_0_#2563eb] hover:bg-[#dbeafe]">
+                  Get your free diagnostic
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </section>
