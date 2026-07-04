@@ -23,6 +23,12 @@ export default async function DiagnosticSuccessPage({
   const freeRoadmapHref = submissionId
     ? `/roadmap?submissionId=${submissionId}`
     : '/roadmap';
+  const aiReportHref = submissionId
+    ? `/pricing?plan=ai-report&submissionId=${submissionId}`
+    : '/pricing?plan=ai-report';
+  const humanReviewHref = submissionId
+    ? `/pricing?plan=human-review&submissionId=${submissionId}`
+    : '/pricing?plan=human-review';
 
   const nextSteps = [
     {
@@ -48,7 +54,7 @@ export default async function DiagnosticSuccessPage({
         'Get a full readiness score, weakness map, and focused 7-day prep plan.',
       bestFor: 'Best if you want clear feedback before your interview.',
       cta: 'Get Full Report',
-      href: '/pricing',
+      href: aiReportHref,
       icon: Brain,
       highlighted: true,
       features: [
@@ -65,7 +71,7 @@ export default async function DiagnosticSuccessPage({
         'Get the AI report plus human-reviewed notes and a 14-day prep sprint.',
       bestFor: 'Best if your interview is soon and you need stronger feedback.',
       cta: 'Upgrade to Human Review',
-      href: '/pricing',
+      href: humanReviewHref,
       icon: UserCheck,
       highlighted: false,
       features: [

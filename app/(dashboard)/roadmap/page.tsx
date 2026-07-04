@@ -96,7 +96,7 @@ const roadmapTemplates = {
     ],
   },
   finalRound: {
-    name: 'Final Round Readiness Roadmap',
+    name: 'Advanced / Final Round Readiness Roadmap',
     label: 'Recommended for advanced preparation',
     icon: Trophy,
     description:
@@ -208,6 +208,16 @@ function daysUntil(dateValue: Date | string | null) {
   return Math.ceil(difference / (1000 * 60 * 60 * 24));
 }
 
+function getValidSubmissionId(value?: string) {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = Number(value);
+
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
 function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | null) {
   if (!submission) {
     return roadmapTemplates.beginner;
@@ -221,6 +231,7 @@ function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | n
     submission.consultingFamiliarity,
     submission.prepLevel,
     submission.casesPracticed,
+    submission.targetRole || '',
     submission.hardestPart || '',
     struggles,
   ]
@@ -229,12 +240,31 @@ function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | n
 
   const interviewDays = daysUntil(submission.interviewDate);
 
-  if (includesAny(combinedText, ['final round', 'final-round', 'partner round'])) {
+  if (
+    includesAny(combinedText, [
+      'final round',
+      'final-round',
+      'advanced',
+      'expert',
+      'many cases',
+      '10+ cases',
+      '11-25 cases',
+      '11–25 cases',
+      '25+ cases',
+      'partner round',
+    ])
+  ) {
     return roadmapTemplates.finalRound;
   }
 
   if (
-    includesAny(combinedText, ['interview soon', 'soon', 'urgent']) ||
+    includesAny(combinedText, [
+      'interview soon',
+      'soon',
+      'urgent',
+      'this week',
+      'next week',
+    ]) ||
     (interviewDays !== null && interviewDays <= 21)
   ) {
     return roadmapTemplates.sprint;
@@ -248,7 +278,9 @@ function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | n
       'calculation',
       'numbers',
       'chart',
+      'charts',
       'market sizing',
+      'percentages',
     ])
   ) {
     return roadmapTemplates.math;
@@ -258,9 +290,10 @@ function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | n
     includesAny(combinedText, [
       'business intuition',
       'business understanding',
-      'commercial',
-      'industry',
+      'commercial thinking',
+      'industry logic',
       'market logic',
+      'business sense',
     ])
   ) {
     return roadmapTemplates.business;
@@ -274,6 +307,7 @@ function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | n
       '0 cases',
       'zero cases',
       'no cases',
+      'never practiced',
     ])
   ) {
     return roadmapTemplates.beginner;
@@ -284,9 +318,9 @@ function selectRoadmap(submission: typeof diagnosticSubmissions.$inferSelect | n
 
 export default async function RoadmapPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const submissionId = Number(params.submissionId);
+  const submissionId = getValidSubmissionId(params.submissionId);
 
-  const [submission] = Number.isFinite(submissionId)
+  const [submission] = submissionId
     ? await db
         .select()
         .from(diagnosticSubmissions)
@@ -296,6 +330,14 @@ export default async function RoadmapPage({ searchParams }: PageProps) {
 
   const selectedRoadmap = selectRoadmap(submission || null);
   const SelectedIcon = selectedRoadmap.icon;
+  const fallbackMessage = !params.submissionId
+    ? 'For a more accurate roadmap, complete the diagnostic first.'
+    : !submission
+      ? 'We could not find that diagnostic submission.'
+      : null;
+  const pricingHref = submissionId
+    ? `/pricing?plan=ai-report&submissionId=${submissionId}`
+    : '/pricing?plan=ai-report';
 
   return (
     <main className="min-h-screen bg-[#f7f9fc] px-4 py-12 sm:px-6 lg:px-8">
@@ -362,6 +404,19 @@ export default async function RoadmapPage({ searchParams }: PageProps) {
                   </Button>
                 </a>
               </div>
+
+              {fallbackMessage ? (
+                <div className="mt-8 rounded-2xl border-2 border-[#111827] bg-[#dbeafe] p-5 shadow-[0_6px_0_#111827]">
+                  <p className="font-bold text-[#111827]">{fallbackMessage}</p>
+
+                  <Link href="/diagnostic" className="mt-4 inline-block">
+                    <Button className="move-button rounded-xl border-2 border-[#111827] bg-white px-6 py-5 text-[#111827] shadow-[0_4px_0_#111827] hover:bg-[#f7f9fc]">
+                      Complete Diagnostic
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </Link>
+                </div>
+              ) : null}
             </div>
 
             <div className="rounded-[2rem] border-2 border-[#111827] bg-[#dbeafe] p-8 shadow-[0_8px_0_#111827]">
@@ -510,7 +565,7 @@ export default async function RoadmapPage({ searchParams }: PageProps) {
                 firms, timeline, and recommended drills.
               </p>
 
-              <Link href="/pricing" className="mt-8 inline-block">
+              <Link href={pricingHref} className="mt-8 inline-block">
                 <Button className="move-button rounded-xl border-2 border-white/20 bg-white px-8 py-6 text-[#111827] shadow-[0_6px_0_#2563eb] hover:bg-[#dbeafe]">
                   Unlock Full AI Report — $49
                   <ArrowRight className="ml-2 h-5 w-5" />
